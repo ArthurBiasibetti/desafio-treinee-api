@@ -1,21 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
-import ApiError from '../utils/apiError.utils';
+import AppError from '../utils/AppError.utils';
 import { verifyJwt } from '../utils/jwt.utils';
 
 export interface ICustomRequest extends Request {
-  auth?: {
-    valid: boolean;
-    expired: boolean;
-    decoded: string | JwtPayload | null;
-  };
+  userId: string;
 }
 
 const verifyAuth = (req: ICustomRequest, res: Response, next: NextFunction) => {
   const bearerHeader = req.headers.authorization;
 
   if (!bearerHeader) {
-    throw new ApiError(401, true, 'Missing token to Authentication!');
+    throw new AppError('Missing token to Authentication!', 401);
   }
 
   const [, hash] = bearerHeader.split(' ');
@@ -23,10 +18,10 @@ const verifyAuth = (req: ICustomRequest, res: Response, next: NextFunction) => {
   const auth = verifyJwt(hash);
 
   if (!auth.valid) {
-    throw new ApiError(401, true, 'Authentication Failed!');
+    throw new AppError('Authentication Failed!', 401);
   }
 
-  req.auth = auth;
+  req.userId = (<{ id: string }>auth?.decoded).id;
   next();
 };
 

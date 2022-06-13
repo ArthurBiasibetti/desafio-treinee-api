@@ -23,7 +23,7 @@ const envVarsSchema = yup
     API_PORT: yup.number().default(3001),
     PUBLIC_URL: yup.string().default('localhost'),
     SALT_WORK_FACTOR: yup.number().default(10),
-    ACCESS_TOKEN_TTL: yup.string().default('15m'),
+    ACCESS_TOKEN_TTL: yup.string().default('1y'),
     REFRESH_TOKEN_TTL: yup.string().default('1y'),
     JWT_SECRET: yup.string().required('Secret is required'),
     POSTGRES_HOST: yup.string(), // .required('POSTGRES_HOST is required'),

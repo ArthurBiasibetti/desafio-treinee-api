@@ -1,4 +1,4 @@
-import dataSource from '../database/data.source';
+import dataSource from '../database/data-source';
 import config from './config';
 import logger from './logger';
 

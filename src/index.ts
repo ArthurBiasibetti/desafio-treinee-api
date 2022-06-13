@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'express-async-errors';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -9,14 +10,18 @@ import logger from './config/logger';
 import database from './config/database';
 import routes from './routes';
 import swaggerDocs from './config/swagger';
-import ApiError from './utils/apiError.utils';
+import AppError from './utils/AppError.utils';
 
 const app = express();
+
+const corsOptions = {
+  exposedHeaders: ['authorization'],
+};
 
 app.use(express.json());
 app.use(helmet());
 app.use(compression());
-app.use(cors());
+app.use(cors(corsOptions));
 app.options('*', cors());
 
 if (config.env !== environments.PRODUCTION) {
@@ -31,8 +36,8 @@ app.listen(config.port, async () => {
   routes(app);
 
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-    if (error instanceof ApiError) {
-      return res.status(error.statusCode).json({
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).send({
         status: 'error',
         message: error.message,
       });

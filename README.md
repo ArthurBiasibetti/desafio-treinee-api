@@ -2,6 +2,18 @@
   <img src="https://softdesign.com.br/wp-content/themes/bones/library/images/logotipo.svg" alt="Softdesign logo" />
 </p>
 
+# Seed
+
+digite o comando:
+
+`$ npm run seed`
+
+isso ira criar o primeiro usuario admin no banco:
+
+password: rootadmin
+user: AdminRoot
+cpf: 85807788087
+
 # :rocket: Quickstart NodeJS + Typescript
 
 Esse projeto foi criado utilizando o framework [express]('https://expressjs.com/pt-br/').

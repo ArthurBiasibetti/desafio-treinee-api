@@ -15,6 +15,9 @@ import { Permissions } from '../database/entities/User.Entity';
  *        - permissions
  *        - birthday
  *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
  *         name:
  *           type: string
  *         comments:

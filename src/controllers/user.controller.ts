@@ -4,10 +4,12 @@ import {
   CreateUserInput,
   ReadUserInput,
   UpdateUserInput,
+  DeleteUserInput,
 } from '../schemas/user.schema';
 
 import {
   createUser,
+  deleteUser,
   findUser,
   findUsers,
   updateUser,
@@ -53,4 +55,15 @@ export async function updateUserHandler(
   const updatedUser = await updateUser(params.userId, body);
 
   return res.status(StatusCodes.OK).json(updatedUser);
+}
+
+export async function deleteUserHandler(
+  req: Request<DeleteUserInput['params'], {}, {}>,
+  res: Response
+) {
+  const { params } = req;
+
+  await deleteUser(params.userId);
+
+  return res.status(StatusCodes.NO_CONTENT).send();
 }

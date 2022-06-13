@@ -1,13 +1,13 @@
-import { Column, CreateDateColumn, Entity } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Unique } from 'typeorm';
 import Base from './Base';
 
 export enum Permissions {
   ADMIN = 'ADMIN',
   COLAB = 'COLAB',
 }
-
 @Entity('user')
-export default class Product extends Base {
+@Unique('UQ_CPF', ['cpf'])
+export default class User extends Base {
   @Column({ length: 120 })
   name: string;
 
