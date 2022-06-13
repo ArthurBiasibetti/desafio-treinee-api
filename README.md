@@ -4,12 +4,17 @@
 
 # Pré-requisitos
 
-Um banco de dados postgres
-Configurar o arquivo .env.exemple e edita-lo para .env
+Digitar o comando:
+
+`$ yarn install ou npm install`
+
+Ter um banco de dados postgres
+
+Configurar o arquivo .env.exemple para as configurações do seu banco e edita-lo para .env
 
 com o banco de dados rodando digitar o comando:
 
-`$yarn m:run`
+`$ yarn m:run`
 
 # Seed
 
@@ -30,3 +35,7 @@ cpf: 85807788087
 Digite o comando:
 
 `$ yarn dev ou npm run dev`
+
+# Impedimentos
+
+Tive problemas para realizar os tests pois não estou conseguindo fazer o spyOn nos methods que preciso. o spyOn não é chamado no lugar do original, assim causando um erro de "No metadata for 'User' was found"
