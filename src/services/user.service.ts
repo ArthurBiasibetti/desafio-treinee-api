@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import DataSource from '../database/data-source';
-import UserEntity from '../database/entities/User.Entity';
+import UserEntity, { Permissions } from '../database/entities/User.Entity';
 import { IUserInput } from '../models/user.model';
 import config from '../config/config';
 import AppError from '../utils/AppError.utils';
@@ -34,10 +34,14 @@ export async function findUser(userId: string) {
 
 export async function updateUser(
   userId: string,
-  updateInput: Pick<IUserInput, 'comments' | 'permission'>
+  updateInput: { comments?: string; permission?: Permissions }
 ) {
   const repository = DataSource.getRepository(UserEntity);
   const user = await repository.findOneBy({ id: userId });
+
+  if (!user) {
+    throw new AppError('User not found!');
+  }
 
   const updatedUser = {
     ...user,
@@ -64,13 +68,13 @@ export async function verifyLogin(login: {
   }
 
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('User not found!', 404);
   }
 
   const passwordIsValid = await bcrypt.compare(login.password, user.password);
 
   if (!passwordIsValid) {
-    throw new AppError('Invalid Password', 406);
+    throw new AppError('Invalid Password!', 406);
   }
 
   return user;
@@ -86,4 +90,6 @@ export async function deleteUser(userId: string) {
   }
 
   await repository.remove(user);
+
+  return true;
 }
